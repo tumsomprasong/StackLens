@@ -1,0 +1,12 @@
+{
+  "name": "stacklens",
+  "version": "1.0.0",
+  "description": "StackLens - Deep Web Stack, Infrastructure, Security & Lead Lens (Open-Source Wappalyzer Alternative)",
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "update-rules": "node scripts/fetch-rules.mjs",
+    "generate-icons": "node scripts/generate-icons.mjs"
+  }
+}
+
