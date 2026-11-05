@@ -1025,7 +1025,7 @@ body {
 /* Toast Notification */
 .toast {
   position: fixed;
-  bottom: 12px;
+  bottom: 36px;
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--brand-primary);
@@ -1037,6 +1037,47 @@ body {
   border-radius: 6px;
   box-shadow: 0 6px 16px rgba(2, 6, 23, 0.45);
   z-index: 100;
+}
+
+/* Compact Sponsor & GitHub Footer */
+.app-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 28px;
+  padding: 0 14px;
+  background-color: var(--bg-elevated);
+  border-top: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 140ms var(--ease-out);
+}
+
+.footer-link:hover {
+  color: var(--text-primary);
+}
+
+.footer-sponsor-link {
+  color: var(--domain-text);
+}
+
+.footer-sponsor-link:hover {
+  color: var(--brand-accent);
+}
+
+.footer-sep {
+  color: var(--text-muted);
+  font-size: 11px;
 }
 
 .hidden {

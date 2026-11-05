@@ -9,7 +9,7 @@
     <img src="https://img.shields.io/badge/Architecture-100%25_Serverless-6366F1?style=flat-square" alt="100% Serverless" />
   </p>
   <p>
-    <a href="README.md">English</a> · <strong>ภาษาไทย (Thai)</strong>
+    <a href="README.md">English</a> · <strong>ภาษาไทย (Thai)</strong> · <a href="PRIVACY_POLICY.md">นโยบายความเป็นส่วนตัว (Privacy Policy)</a>
   </p>
 </div>
 
@@ -110,8 +110,8 @@ stacklens/
 
 1. **ดาวน์โหลดหรือ Clone โปรเจกต์**:
    ```bash
-   git clone https://github.com/your-username/stacklens.git
-   cd stacklens
+   git clone https://github.com/tumsomprasong/StackLens.git
+   cd StackLens
    ```
 2. **เปิดหน้าจัดการส่วนขยายของเบราว์เซอร์**:
    - พิมพ์ `chrome://extensions/` ในช่อง URL ของ Google Chrome (หรือ `edge://extensions/` สำหรับ Edge)
@@ -148,6 +148,14 @@ npm run generate-icons
   - ข้อมูล DNS เรียกผ่าน `https://cloudflare-dns.com/dns-query`
   - ข้อมูล IP/ASN เรียกผ่าน `https://ipwho.is/`
   - ข้อมูลช่องโหว่ CVE เรียกผ่าน `https://api.osv.dev/v1/query`
+
+---
+
+## ☕ สนับสนุนนักพัฒนา (Support &amp; Sponsor)
+
+**StackLens** เปิดให้ใช้งานฟรี 100% แบบ Open-Source โดยไม่มีการล็อกฟีเจอร์เสียเงิน หากเครื่องมือนี้ช่วยประหยัดเวลาในการทำงานของคุณ สามารถร่วมสนับสนุนค่ากาแฟเพื่อเป็นกำลังใจในการอัปเดตฐานข้อมูลและพัฒนาฟีเจอร์ใหม่ๆ ได้ที่:
+
+- ❤️ **GitHub Sponsors**: [github.com/sponsors/tumsomprasong](https://github.com/sponsors/tumsomprasong)
 
 ---
 

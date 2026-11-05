@@ -9,7 +9,7 @@
     <img src="https://img.shields.io/badge/Architecture-100%25_Serverless-6366F1?style=flat-square" alt="100% Serverless" />
   </p>
   <p>
-    <strong>English</strong> · <a href="README.th.md">ภาษาไทย (Thai)</a>
+    <strong>English</strong> · <a href="README.th.md">ภาษาไทย (Thai)</a> · <a href="PRIVACY_POLICY.md">Privacy Policy</a>
   </p>
 </div>
 
@@ -110,8 +110,8 @@ StackLens works on all Chromium-based browsers (**Google Chrome**, **Microsoft E
 
 1. **Clone or download this repository**:
    ```bash
-   git clone https://github.com/your-username/stacklens.git
-   cd stacklens
+   git clone https://github.com/tumsomprasong/StackLens.git
+   cd StackLens
    ```
 2. **Open the Browser Extensions page**:
    - Navigate to `chrome://extensions/` in Chrome (or `edge://extensions/` in Edge).
@@ -147,6 +147,14 @@ npm run generate-icons
   - DNS resolution via `https://cloudflare-dns.com/dns-query`
   - IP & ASN lookup via `https://ipwho.is/`
   - Vulnerability lookup via `https://api.osv.dev/v1/query`
+
+---
+
+## ☕ Support &amp; Sponsor
+
+**StackLens** is 100% free and open-source with no paywalls or subscriptions. If StackLens saves you time in your daily development or security workflows, consider supporting its ongoing maintenance and 2026+ signature updates:
+
+- ❤️ **GitHub Sponsors**: [github.com/sponsors/tumsomprasong](https://github.com/sponsors/tumsomprasong)
 
 ---
 

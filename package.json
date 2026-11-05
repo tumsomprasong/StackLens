@@ -4,9 +4,18 @@
   "description": "StackLens - Deep Web Stack, Infrastructure, Security & Lead Lens (Open-Source Wappalyzer Alternative)",
   "license": "GPL-3.0-only",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tumsomprasong/StackLens.git"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/tumsomprasong"
+  },
   "scripts": {
     "update-rules": "node scripts/fetch-rules.mjs",
-    "generate-icons": "node scripts/generate-icons.mjs"
+    "generate-icons": "node scripts/generate-icons.mjs",
+    "pack": "node scripts/pack-extension.mjs"
   }
 }
 
