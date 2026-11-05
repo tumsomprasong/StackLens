@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#1E1B4B" />
+    </linearGradient>
+    <linearGradient id="stackTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22D3EE" />
+      <stop offset="100%" stop-color="#4F46E5" />
+    </linearGradient>
+    <linearGradient id="stackMid" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#4338CA" />
+    </linearGradient>
+    <linearGradient id="lensGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#818CF8" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background Squircle -->
+  <rect width="128" height="128" rx="28" fill="url(#bgGrad)" />
+  <rect x="3" y="3" width="122" height="122" rx="25" fill="none" stroke="#334155" stroke-width="2" opacity="0.6" />
+
+  <!-- Isometric Stack Layers -->
+  <!-- Bottom Layer -->
+  <path d="M64 80 L28 62 L64 44 L100 62 Z" fill="#312E81" opacity="0.85" />
+  <path d="M28 76 L64 94 L100 76" fill="none" stroke="#4F46E5" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Middle Layer -->
+  <path d="M28 63 L64 81 L100 63" fill="none" stroke="url(#stackMid)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Top Layer -->
+  <path d="M64 66 L28 48 L64 30 L100 48 Z" fill="url(#stackTop)" />
+
+  <!-- Lens / Scanner Ring Overlay -->
+  <circle cx="72" cy="70" r="24" fill="#0F172A" fill-opacity="0.55" stroke="url(#lensGrad)" stroke-width="5.5" />
+  <!-- Lens Glare -->
+  <path d="M60 56 A16 16 0 0 1 82 56" fill="none" stroke="#BAE6FD" stroke-width="2.5" stroke-linecap="round" opacity="0.8" />
+  <!-- Lens Handle -->
+  <line x1="90" y1="88" x2="105" y2="103" stroke="url(#lensGrad)" stroke-width="7.5" stroke-linecap="round" />
+</svg>
+

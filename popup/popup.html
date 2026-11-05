@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StackLens Analyzer</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Top Workbench Header -->
+    <header class="app-header">
+      <div class="topbar">
+        <div class="brand-cluster">
+          <img src="../assets/logo.svg" alt="StackLens" class="brand-mark" width="32" height="32" />
+          <div class="brand-meta">
+            <div class="brand-title-row">
+              <h1 class="brand-title">StackLens</h1>
+              <span id="scan-status-pill" class="status-pill status-ready">READY</span>
+            </div>
+            <div class="target-host-row">
+              <span class="host-indicator" aria-hidden="true"></span>
+              <p id="current-domain" class="domain-label" title="Active target hostname">Scanning active tab...</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="toolbar-actions" role="group" aria-label="Workbench actions">
+          <button id="btn-theme-toggle" class="control-btn icon-only" type="button" title="Toggle Light / Dark theme" aria-label="Toggle Light or Dark theme">
+            <!-- Sun Icon (shown in dark mode to switch to light) -->
+            <svg class="icon-sun" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+            <!-- Moon Icon (shown in light mode to switch to dark) -->
+            <svg class="icon-moon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </button>
+
+          <button id="btn-rescan" class="control-btn icon-only" type="button" title="Rescan current page" aria-label="Rescan current page">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+              <path d="M3 3v5h5" />
+              <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+              <path d="M16 16h5v5" />
+            </svg>
+          </button>
+
+          <div class="segmented-export">
+            <button id="btn-export-json" class="control-btn segment-left" type="button" title="Export full intelligence report as JSON">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              <span>JSON</span>
+            </button>
+            <button id="btn-export-csv" class="control-btn segment-right" type="button" title="Export report as CSV spreadsheet">
+              <span>CSV</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Primary Navigation Tabs with Embedded Tabular Counters -->
+      <nav class="tabs-nav" role="tablist" aria-label="Analysis sections">
+        <button class="tab-btn active" id="tabbtn-tech" data-tab="tab-tech" role="tab" aria-selected="true" aria-controls="tab-tech" type="button">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="12 2 2 7 12 12 22 7 12 2" />
+            <polyline points="2 17 12 22 22 17" />
+            <polyline points="2 12 12 17 22 12" />
+          </svg>
+          <span>Stack</span>
+          <span id="stat-tech-count" class="tab-counter">0</span>
+        </button>
+
+        <button class="tab-btn" id="tabbtn-infra" data-tab="tab-infra" role="tab" aria-selected="false" aria-controls="tab-infra" type="button">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+            <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
+            <line x1="6" y1="6" x2="6.01" y2="6" />
+            <line x1="6" y1="18" x2="6.01" y2="18" />
+          </svg>
+          <span>Infra</span>
+          <span id="stat-dns-count" class="tab-counter">0</span>
+        </button>
+
+        <button class="tab-btn" id="tabbtn-security" data-tab="tab-security" role="tab" aria-selected="false" aria-controls="tab-security" type="button">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          <span>CVE</span>
+          <span id="stat-cve-count" class="tab-counter">0</span>
+        </button>
+
+        <button class="tab-btn" id="tabbtn-leads" data-tab="tab-leads" role="tab" aria-selected="false" aria-controls="tab-leads" type="button">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+          <span>Leads</span>
+          <span id="stat-lead-count" class="tab-counter">0</span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Main Workbench Viewport -->
+    <main class="viewport">
+      <!-- TAB 1: TECH STACK -->
+      <section id="tab-tech" class="tab-panel active" role="tabpanel" aria-labelledby="tabbtn-tech">
+        <div class="filter-bar">
+          <div class="search-field">
+            <svg class="search-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input
+              type="text"
+              id="tech-search"
+              class="search-input"
+              placeholder="Filter technologies or categories..."
+              aria-label="Filter detected technologies or categories"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <button id="btn-clear-search" class="clear-search-btn hidden" type="button" aria-label="Clear filter">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+            <kbd id="search-kbd-hint" class="kbd-hint" aria-hidden="true">/</kbd>
+          </div>
+        </div>
+        <div id="tech-list-container" class="panel-scroll"></div>
+      </section>
+
+      <!-- TAB 2: INFRA & DNS -->
+      <section id="tab-infra" class="tab-panel" role="tabpanel" aria-labelledby="tabbtn-infra">
+        <div id="infra-container" class="panel-scroll"></div>
+      </section>
+
+      <!-- TAB 3: SECURITY (CVE) -->
+      <section id="tab-security" class="tab-panel" role="tabpanel" aria-labelledby="tabbtn-security">
+        <div id="security-container" class="panel-scroll"></div>
+      </section>
+
+      <!-- TAB 4: LEADS & META -->
+      <section id="tab-leads" class="tab-panel" role="tabpanel" aria-labelledby="tabbtn-leads">
+        <div id="leads-container" class="panel-scroll"></div>
+      </section>
+    </main>
+
+    <!-- Compact Open-Source & Sponsor Footer -->
+    <footer class="app-footer">
+      <a href="https://github.com/tumsomprasong/StackLens" target="_blank" rel="noopener noreferrer" class="footer-link">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
+        <span>Star on GitHub</span>
+      </a>
+      <span class="footer-sep" aria-hidden="true">·</span>
+      <a href="https://github.com/sponsors/tumsomprasong" target="_blank" rel="noopener noreferrer" class="footer-link footer-sponsor-link">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+          <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+          <line x1="6" y1="1" x2="6" y2="4" />
+          <line x1="10" y1="1" x2="10" y2="4" />
+          <line x1="14" y1="1" x2="14" y2="4" />
+        </svg>
+        <span>Buy Me a Coffee / Sponsor</span>
+      </a>
+    </footer>
+
+    <!-- Status Toast -->
+    <div id="toast" class="toast hidden" role="status" aria-live="polite">Copied to clipboard</div>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "StackLens - Web Tech, Infra & Security Analyzer",
+  "short_name": "StackLens",
+  "version": "1.0.0",
+  "description": "Inspect web technologies, DNS/IP infrastructure, CVE vulnerabilities, and company leads — 100% open-source.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "webRequest",
+    "cookies",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "src/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["src/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["src/inject.js", "rules/*.json", "assets/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "icons": {
+    "16": "assets/icon-16.png",
+    "48": "assets/icon-48.png",
+    "128": "assets/icon-128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "StackLens Analyzer",
+    "default_icon": {
+      "16": "assets/icon-16.png",
+      "48": "assets/icon-48.png",
+      "128": "assets/icon-128.png"
+    }
+  }
+}
+
