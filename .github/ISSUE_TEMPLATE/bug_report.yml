@@ -1,0 +1,81 @@
+name: 🐛 Bug Report
+description: Create a report to help us fix a bug or false detection in StackLens.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report an issue! Please check if the bug has already been reported before submitting.
+
+  - type: input
+    id: website_url
+    attributes:
+      label: Target Website URL
+      description: The public URL of the webpage where the issue occurred (if applicable).
+      placeholder: https://example.com
+    validations:
+      required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: e.g., Next.js is not being detected on page X, or the extension popup hangs when loading DNS records.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps_to_reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this issue?
+      value: |
+        1. Navigate to '...'
+        2. Click on the StackLens extension icon
+        3. Switch to '...' tab
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_behavior
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen instead?
+      placeholder: e.g., StackLens should identify React 19 and show the version badge.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      options:
+        - Google Chrome
+        - Microsoft Edge
+        - Brave Browser
+        - Arc Browser
+        - Vivaldi
+        - Other Chromium Browser
+    validations:
+      required: true
+
+  - type: input
+    id: extension_version
+    attributes:
+      label: StackLens Version
+      description: Check the version in chrome://extensions.
+      placeholder: 1.0.0
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or Console Logs
+      description: Drag and drop screenshots or paste browser DevTools console errors here.
+    validations:
+      required: false
+

@@ -1,6 +1,6 @@
 {
   "name": "stacklens",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "StackLens - Deep Web Stack, Infrastructure, Security & Lead Lens (Open-Source Wappalyzer Alternative)",
   "license": "GPL-3.0-only",
   "type": "module",

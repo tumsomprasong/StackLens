@@ -275,6 +275,21 @@ async function ensurePageHeaders(tabId, url) {
   return existing;
 }
 
+// Default Settings & Helper
+const DEFAULT_SETTINGS = {
+  enableCve: true,
+  dohProvider: 'cloudflare' // 'cloudflare' | 'google'
+};
+
+async function getSettings() {
+  try {
+    const res = await chrome.storage.local.get('stacklens_settings');
+    return { ...DEFAULT_SETTINGS, ...(res.stacklens_settings || {}) };
+  } catch {
+    return DEFAULT_SETTINGS;
+  }
+}
+
 // Helper: ดึงข้อมูลจาก Cache ถ้ายังไม่หมดอายุ (24 ชั่วโมง)
 async function getWithCache(cacheKey, fetcher, ttlMs = 86400000) {
   try {
@@ -291,18 +306,21 @@ async function getWithCache(cacheKey, fetcher, ttlMs = 86400000) {
   return data;
 }
 
-// Plus API 1: ดึง DNS Records ผ่าน Cloudflare DoH
+// Plus API 1: ดึง DNS Records ผ่าน Cloudflare DoH หรือ Google DoH ตามการตั้งค่า
 async function fetchDnsRecords(hostname) {
   if (!hostname || hostname === 'localhost' || /^\d+\.\d+\.\d+\.\d+$/.test(hostname)) {
     return { A: [], AAAA: [], CNAME: [], MX: [], TXT: [], NS: [] };
   }
-  return getWithCache(`dns_${hostname}`, async () => {
+  const settings = await getSettings();
+  const provider = settings.dohProvider === 'google' ? 'google' : 'cloudflare';
+
+  return getWithCache(`dns_${provider}_${hostname}`, async () => {
     const queryType = async (type) => {
       try {
-        const res = await fetch(
-          `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(hostname)}&type=${type}`,
-          { headers: { Accept: 'application/dns-json' } }
-        );
+        const url = provider === 'google'
+          ? `https://dns.google/resolve?name=${encodeURIComponent(hostname)}&type=${type}`
+          : `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(hostname)}&type=${type}`;
+        const res = await fetch(url, { headers: { Accept: 'application/dns-json' } });
         const json = await res.json();
         return json.Answer ? json.Answer.map((a) => a.data) : [];
       } catch {
@@ -518,10 +536,11 @@ async function processPageReport(tabId, msg) {
     await chrome.action.setBadgeText({ tabId, text: detectedTech.length ? String(detectedTech.length) : '' });
   } catch {}
 
+  const settings = await getSettings();
   const primaryIp = dns.A?.find((ip) => /^\d+\.\d+\.\d+\.\d+$/.test(ip)) || null;
   const [ipInfo, security] = await Promise.all([
     fetchIpInfo(primaryIp),
-    checkVulnerabilities(detectedTech)
+    settings.enableCve ? checkVulnerabilities(detectedTech) : Promise.resolve([])
   ]);
 
   const fullReport = {
@@ -574,6 +593,42 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
         } catch (err) {
           sendResponse({ ok: false, error: err.message });
         }
+      }
+    })();
+    return true;
+  }
+
+  if (msg.action === 'CLEAR_CACHE') {
+    (async () => {
+      try {
+        const all = await chrome.storage.local.get(null);
+        const keysToRemove = Object.keys(all).filter((k) =>
+          k.startsWith('dns_') || k.startsWith('ip_') || k.startsWith('cve_') || k.startsWith('report_')
+        );
+        if (keysToRemove.length > 0) {
+          await chrome.storage.local.remove(keysToRemove);
+        }
+        tabHeaders.clear();
+        tabRequests.clear();
+        sendResponse({ ok: true, removedCount: keysToRemove.length });
+      } catch (err) {
+        sendResponse({ ok: false, error: err.message });
+      }
+    })();
+    return true;
+  }
+
+  if (msg.action === 'GET_CACHE_STATS') {
+    (async () => {
+      try {
+        const all = await chrome.storage.local.get(null);
+        const cacheKeys = Object.keys(all).filter((k) =>
+          k.startsWith('dns_') || k.startsWith('ip_') || k.startsWith('cve_')
+        );
+        const approxBytes = new TextEncoder().encode(JSON.stringify(all)).length;
+        sendResponse({ ok: true, count: cacheKeys.length, bytes: approxBytes });
+      } catch (err) {
+        sendResponse({ ok: false, count: 0, bytes: 0 });
       }
     })();
     return true;

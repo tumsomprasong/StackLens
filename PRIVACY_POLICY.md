@@ -3,6 +3,7 @@
 **Effective Date:** November 5, 2026  
 **Last Updated:** November 5, 2026  
 **Extension Name:** StackLens - Web Tech, Infra & Security Analyzer  
+**Chrome Web Store:** [View on Chrome Web Store](https://chromewebstore.google.com/detail/jfmfbmjkafbmimefoomiejfpjdflhbdm)  
 **License:** GNU General Public License v3.0 (`GPL-3.0-only`)
 
 ---

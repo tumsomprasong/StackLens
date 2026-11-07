@@ -3,10 +3,16 @@
   <h1>StackLens</h1>
   <p><strong>Deep Web Stack, Infrastructure, Security &amp; Lead Lens — 100% Free &amp; Open Source.</strong></p>
   <p>
+    <a href="https://chromewebstore.google.com/detail/jfmfbmjkafbmimefoomiejfpjdflhbdm"><img src="https://img.shields.io/badge/Chrome_Web_Store-Install_Extension-4285F4?style=flat-square&logo=googlechrome&logoColor=white" alt="Chrome Web Store" /></a>
     <img src="https://img.shields.io/badge/License-GPL--3.0--only-4F46E5?style=flat-square" alt="License: GPL-3.0-only" />
     <img src="https://img.shields.io/badge/Chrome-Manifest_V3-06B6D4?style=flat-square" alt="Chrome Manifest V3" />
     <img src="https://img.shields.io/badge/Signatures-7%2C760%2B_(2026_Edition)-10B981?style=flat-square" alt="7,760+ Signatures" />
     <img src="https://img.shields.io/badge/Architecture-100%25_Serverless-6366F1?style=flat-square" alt="100% Serverless" />
+  </p>
+  <p>
+    <a href="https://chromewebstore.google.com/detail/jfmfbmjkafbmimefoomiejfpjdflhbdm">
+      <img src="https://img.shields.io/badge/👉_Add_to_Chrome-Official_Store-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Add to Chrome" />
+    </a>
   </p>
   <p>
     <strong>English</strong> · <a href="README.th.md">ภาษาไทย (Thai)</a> · <a href="PRIVACY_POLICY.md">Privacy Policy</a>
@@ -60,14 +66,18 @@ Powered by a unified database merging `enthec/webappanalyzer`, `projectdiscovery
 
 ---
 
-### 5. 🎨 High-Density 2-Column UI, Dark/Light Theme & One-Click Export
+### 5. 🎨 High-Density 2-Column UI, Settings & Unified Export
 - **Balanced 2-Column Masonry Layout**: Distributes technology categories across two height-balanced columns to eliminate wasted horizontal and vertical whitespace.
 - **Dark / Light Mode Toggle (☀️ / 🌙)**: Switch seamlessly between the signature **Deep Indigo & Electric Cyan** dark workbench and a high-contrast **WCAG AA** light theme with persistent preference storage.
+- **⚙️ Settings & Detection Cache Management**:
+  - **1-Click Cache Purge**: View real-time storage metrics and wipe cached DNS, IP, and CVE entries immediately to force a clean, fresh analysis.
+  - **CVE Auditing Toggle**: Enable or disable OSV.dev vulnerability lookups for lightweight, ultra-fast scans.
+  - **DoH Resolver Selector**: Toggle between **Cloudflare (`1.1.1.1`)** and **Google Public DNS (`8.8.8.8`)** encrypted resolvers.
+- **Unified Export Dropdown (`Export ▾`)**: Export complete site intelligence to hierarchical **JSON** (`.json`) or tabular **CSV Spreadsheet** (`.csv`) in one click.
 - **Keyboard Shortcuts**:
   - Press `/` to focus the technology/category filter bar immediately.
-  - Press `Esc` to clear the active filter.
+  - Press `Esc` to clear search filters or dismiss open modals/menus.
   - Press `ArrowLeft` / `ArrowRight` to navigate between tabs.
-- **JSON / CSV Export & 24-Hour Smart Cache**: Export full site reports to `.json` or `.csv` in one click. DNS, IP, and CVE lookups are cached in `chrome.storage.local` for 24 hours per domain.
 
 ---
 
@@ -104,7 +114,21 @@ stacklens/
 
 ---
 
-## 🚀 Installation (Load Unpacked)
+## 🚀 Installation
+
+### Option 1: Chrome Web Store (Recommended — 1-Click Install)
+
+Get the verified release directly from the official Chrome Web Store:
+
+<a href="https://chromewebstore.google.com/detail/jfmfbmjkafbmimefoomiejfpjdflhbdm">
+  <img src="https://img.shields.io/badge/Chrome_Web_Store-Get_StackLens-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Available in Chrome Web Store" />
+</a>
+
+> **Direct Store Link:** [chromewebstore.google.com/detail/jfmfbmjkafbmimefoomiejfpjdflhbdm](https://chromewebstore.google.com/detail/jfmfbmjkafbmimefoomiejfpjdflhbdm)
+
+---
+
+### Option 2: Load Unpacked (Manual / Developer Mode)
 
 StackLens works on all Chromium-based browsers (**Google Chrome**, **Microsoft Edge**, **Brave**, **Arc**, **Vivaldi**):
 

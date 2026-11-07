@@ -32,6 +32,22 @@ const rescanBtn = document.getElementById('btn-rescan');
 const themeToggleBtn = document.getElementById('btn-theme-toggle');
 const toastEl = document.getElementById('toast');
 
+// Consolidated Export & Settings Elements
+const exportDropdownWrapper = document.getElementById('export-dropdown-wrapper');
+const exportToggleBtn = document.getElementById('btn-export-toggle');
+const exportMenu = document.getElementById('export-menu');
+const exportJsonBtn = document.getElementById('btn-export-json');
+const exportCsvBtn = document.getElementById('btn-export-csv');
+
+const settingsBtn = document.getElementById('btn-settings');
+const settingsModal = document.getElementById('settings-modal');
+const closeSettingsBtn = document.getElementById('btn-close-settings');
+const saveSettingsBtn = document.getElementById('btn-save-settings');
+const clearCacheBtn = document.getElementById('btn-clear-cache');
+const cacheStatsBadge = document.getElementById('cache-stats-badge');
+const settingCveToggle = document.getElementById('setting-cve-toggle');
+const settingDohProvider = document.getElementById('setting-doh-provider');
+
 // ---------------------------------------------------------------------------
 // Theme Management (Dark / Light Mode with instant load & storage persistence)
 // ---------------------------------------------------------------------------
@@ -134,8 +150,27 @@ tabButtons.forEach((btn, idx) => {
   });
 });
 
-// Keyboard shortcuts: '/' focuses search, 'Escape' clears search
+// Keyboard shortcuts: '/' focuses search, 'Escape' clears search or closes modals/menus
 window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    if (settingsModal && !settingsModal.classList.contains('hidden')) {
+      e.preventDefault();
+      closeSettingsModal();
+      return;
+    }
+    if (exportDropdownWrapper && exportDropdownWrapper.classList.contains('open')) {
+      e.preventDefault();
+      closeExportMenu();
+      return;
+    }
+    if (searchInput.value) {
+      e.preventDefault();
+      searchInput.value = '';
+      updateSearchFilter('');
+      return;
+    }
+  }
+
   if (e.key === '/' && document.activeElement !== searchInput) {
     e.preventDefault();
     activateTab(document.getElementById('tabbtn-tech'));
@@ -154,13 +189,6 @@ function updateSearchFilter(val) {
 }
 
 searchInput.addEventListener('input', (e) => updateSearchFilter(e.target.value));
-searchInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && searchInput.value) {
-    e.preventDefault();
-    searchInput.value = '';
-    updateSearchFilter('');
-  }
-});
 
 clearSearchBtn.addEventListener('click', () => {
   searchInput.value = '';
@@ -179,8 +207,36 @@ rescanBtn.addEventListener('click', () => {
   setTimeout(() => rescanBtn.classList.remove('is-spinning'), 700);
 });
 
+// ---------------------------------------------------------------------------
+// Consolidated Export Menu (JSON / CSV)
+// ---------------------------------------------------------------------------
+function closeExportMenu() {
+  exportDropdownWrapper?.classList.remove('open');
+  exportMenu?.classList.add('hidden');
+  exportToggleBtn?.setAttribute('aria-expanded', 'false');
+}
+
+exportToggleBtn?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const isOpen = exportDropdownWrapper.classList.contains('open');
+  if (isOpen) {
+    closeExportMenu();
+  } else {
+    exportDropdownWrapper.classList.add('open');
+    exportMenu.classList.remove('hidden');
+    exportToggleBtn.setAttribute('aria-expanded', 'true');
+  }
+});
+
+document.addEventListener('click', (e) => {
+  if (!exportDropdownWrapper?.contains(e.target)) {
+    closeExportMenu();
+  }
+});
+
 // Export JSON
-document.getElementById('btn-export-json').addEventListener('click', () => {
+exportJsonBtn?.addEventListener('click', () => {
+  closeExportMenu();
   if (!currentReport) {
     showToast('Wait for scan to finish before exporting');
     return;
@@ -197,7 +253,8 @@ document.getElementById('btn-export-json').addEventListener('click', () => {
 });
 
 // Export CSV
-document.getElementById('btn-export-csv').addEventListener('click', () => {
+exportCsvBtn?.addEventListener('click', () => {
+  closeExportMenu();
   if (!currentReport) {
     showToast('Wait for scan to finish before exporting');
     return;
@@ -264,6 +321,91 @@ document.getElementById('btn-export-csv').addEventListener('click', () => {
   a.click();
   URL.revokeObjectURL(url);
   showToast('Exported CSV report');
+});
+
+// ---------------------------------------------------------------------------
+// Settings Modal & Cache Management
+// ---------------------------------------------------------------------------
+async function refreshCacheStats() {
+  if (!cacheStatsBadge) return;
+  cacheStatsBadge.textContent = 'Counting...';
+  try {
+    chrome.runtime.sendMessage({ action: 'GET_CACHE_STATS' }, (res) => {
+      if (res && res.ok) {
+        const kb = Math.round((res.bytes || 0) / 1024);
+        cacheStatsBadge.textContent = `${res.count} cached (~${kb} KB)`;
+      } else {
+        cacheStatsBadge.textContent = '0 items';
+      }
+    });
+  } catch {
+    cacheStatsBadge.textContent = '0 items';
+  }
+}
+
+async function loadSettingsIntoUI() {
+  try {
+    const res = await chrome.storage.local.get('stacklens_settings');
+    const settings = res.stacklens_settings || {};
+    if (settingCveToggle) settingCveToggle.checked = settings.enableCve !== false;
+    if (settingDohProvider) settingDohProvider.value = settings.dohProvider || 'cloudflare';
+  } catch {}
+}
+
+async function saveSettingsFromUI() {
+  const newSettings = {
+    enableCve: Boolean(settingCveToggle?.checked),
+    dohProvider: settingDohProvider?.value || 'cloudflare'
+  };
+  try {
+    await chrome.storage.local.set({ stacklens_settings: newSettings });
+  } catch {}
+}
+
+function openSettingsModal() {
+  closeExportMenu();
+  loadSettingsIntoUI();
+  refreshCacheStats();
+  settingsModal?.classList.remove('hidden');
+}
+
+function closeSettingsModal() {
+  saveSettingsFromUI();
+  settingsModal?.classList.add('hidden');
+}
+
+settingsBtn?.addEventListener('click', openSettingsModal);
+closeSettingsBtn?.addEventListener('click', closeSettingsModal);
+saveSettingsBtn?.addEventListener('click', () => {
+  closeSettingsModal();
+  showToast('Settings saved');
+});
+
+settingsModal?.addEventListener('click', (e) => {
+  if (e.target === settingsModal) {
+    closeSettingsModal();
+  }
+});
+
+// Clear Cache Button
+clearCacheBtn?.addEventListener('click', () => {
+  clearCacheBtn.disabled = true;
+  clearCacheBtn.innerHTML = `<span>Purging cache...</span>`;
+  chrome.runtime.sendMessage({ action: 'CLEAR_CACHE' }, (res) => {
+    clearCacheBtn.disabled = false;
+    clearCacheBtn.innerHTML = `
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="3 6 5 6 21 6" />
+        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      </svg>
+      <span>Clear All Detection Cache</span>
+    `;
+    if (cacheStatsBadge) cacheStatsBadge.textContent = '0 cached (~0 KB)';
+    showToast('Detection cache cleared!');
+    if (activeTabId) {
+      chrome.runtime.sendMessage({ action: 'RESCAN_TAB', tabId: activeTabId });
+    }
+  });
 });
 
 function bindCopyButtons(container) {

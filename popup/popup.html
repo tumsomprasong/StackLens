@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>StackLens Analyzer</title>
   <link rel="stylesheet" href="popup.css" />
 </head>
+
 <body>
   <div class="app-shell">
     <!-- Top Workbench Header -->
@@ -26,9 +28,11 @@
         </div>
 
         <div class="toolbar-actions" role="group" aria-label="Workbench actions">
-          <button id="btn-theme-toggle" class="control-btn icon-only" type="button" title="Toggle Light / Dark theme" aria-label="Toggle Light or Dark theme">
+          <button id="btn-theme-toggle" class="control-btn icon-only" type="button" title="Toggle Light / Dark theme"
+            aria-label="Toggle Light or Dark theme">
             <!-- Sun Icon (shown in dark mode to switch to light) -->
-            <svg class="icon-sun" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg class="icon-sun" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="12" cy="12" r="5" />
               <line x1="12" y1="1" x2="12" y2="3" />
               <line x1="12" y1="21" x2="12" y2="23" />
@@ -40,13 +44,16 @@
               <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
             </svg>
             <!-- Moon Icon (shown in light mode to switch to dark) -->
-            <svg class="icon-moon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg class="icon-moon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
             </svg>
           </button>
 
-          <button id="btn-rescan" class="control-btn icon-only" type="button" title="Rescan current page" aria-label="Rescan current page">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <button id="btn-rescan" class="control-btn icon-only" type="button" title="Rescan current page"
+            aria-label="Rescan current page">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
               <path d="M3 3v5h5" />
               <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
@@ -54,26 +61,58 @@
             </svg>
           </button>
 
-          <div class="segmented-export">
-            <button id="btn-export-json" class="control-btn segment-left" type="button" title="Export full intelligence report as JSON">
-              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <button id="btn-settings" class="control-btn icon-only" type="button" title="Settings &amp; Cache Control"
+            aria-label="Open Settings">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+            </svg>
+          </button>
+
+          <!-- Consolidated Export Dropdown -->
+          <div class="dropdown-wrapper" id="export-dropdown-wrapper">
+            <button id="btn-export-toggle" class="control-btn export-toggle" type="button" aria-haspopup="true"
+              aria-expanded="false" title="Export intelligence report">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                 <polyline points="7 10 12 15 17 10" />
                 <line x1="12" y1="15" x2="12" y2="3" />
               </svg>
-              <span>JSON</span>
+              <span>Export</span>
+              <svg class="dropdown-caret" viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
             </button>
-            <button id="btn-export-csv" class="control-btn segment-right" type="button" title="Export report as CSV spreadsheet">
-              <span>CSV</span>
-            </button>
+            <div id="export-menu" class="dropdown-menu hidden" role="menu" aria-label="Export formats">
+              <button id="btn-export-json" class="dropdown-item" type="button" role="menuitem">
+                <span class="dropdown-badge badge-json">JSON</span>
+                <div class="dropdown-item-meta">
+                  <span class="dropdown-item-name">Export JSON</span>
+                  <span class="dropdown-item-desc">Full hierarchical audit data (.json)</span>
+                </div>
+              </button>
+              <button id="btn-export-csv" class="dropdown-item" type="button" role="menuitem">
+                <span class="dropdown-badge badge-csv">CSV</span>
+                <div class="dropdown-item-meta">
+                  <span class="dropdown-item-name">Export CSV</span>
+                  <span class="dropdown-item-desc">Tabular flat spreadsheet (.csv)</span>
+                </div>
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Primary Navigation Tabs with Embedded Tabular Counters -->
       <nav class="tabs-nav" role="tablist" aria-label="Analysis sections">
-        <button class="tab-btn active" id="tabbtn-tech" data-tab="tab-tech" role="tab" aria-selected="true" aria-controls="tab-tech" type="button">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <button class="tab-btn active" id="tabbtn-tech" data-tab="tab-tech" role="tab" aria-selected="true"
+          aria-controls="tab-tech" type="button">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polygon points="12 2 2 7 12 12 22 7 12 2" />
             <polyline points="2 17 12 22 22 17" />
             <polyline points="2 12 12 17 22 12" />
@@ -82,8 +121,10 @@
           <span id="stat-tech-count" class="tab-counter">0</span>
         </button>
 
-        <button class="tab-btn" id="tabbtn-infra" data-tab="tab-infra" role="tab" aria-selected="false" aria-controls="tab-infra" type="button">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <button class="tab-btn" id="tabbtn-infra" data-tab="tab-infra" role="tab" aria-selected="false"
+          aria-controls="tab-infra" type="button">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
             <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
             <line x1="6" y1="6" x2="6.01" y2="6" />
@@ -93,16 +134,20 @@
           <span id="stat-dns-count" class="tab-counter">0</span>
         </button>
 
-        <button class="tab-btn" id="tabbtn-security" data-tab="tab-security" role="tab" aria-selected="false" aria-controls="tab-security" type="button">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <button class="tab-btn" id="tabbtn-security" data-tab="tab-security" role="tab" aria-selected="false"
+          aria-controls="tab-security" type="button">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
           </svg>
           <span>CVE</span>
           <span id="stat-cve-count" class="tab-counter">0</span>
         </button>
 
-        <button class="tab-btn" id="tabbtn-leads" data-tab="tab-leads" role="tab" aria-selected="false" aria-controls="tab-leads" type="button">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <button class="tab-btn" id="tabbtn-leads" data-tab="tab-leads" role="tab" aria-selected="false"
+          aria-controls="tab-leads" type="button">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
             <circle cx="9" cy="7" r="4" />
             <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
@@ -120,21 +165,16 @@
       <section id="tab-tech" class="tab-panel active" role="tabpanel" aria-labelledby="tabbtn-tech">
         <div class="filter-bar">
           <div class="search-field">
-            <svg class="search-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg class="search-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="11" cy="11" r="8" />
               <line x1="21" y1="21" x2="16.65" y2="16.65" />
             </svg>
-            <input
-              type="text"
-              id="tech-search"
-              class="search-input"
-              placeholder="Filter technologies or categories..."
-              aria-label="Filter detected technologies or categories"
-              autocomplete="off"
-              spellcheck="false"
-            />
+            <input type="text" id="tech-search" class="search-input" placeholder="Filter technologies or categories..."
+              aria-label="Filter detected technologies or categories" autocomplete="off" spellcheck="false" />
             <button id="btn-clear-search" class="clear-search-btn hidden" type="button" aria-label="Clear filter">
-              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="18" y1="6" x2="6" y2="18" />
                 <line x1="6" y1="6" x2="18" y2="18" />
               </svg>
@@ -163,15 +203,20 @@
 
     <!-- Compact Open-Source & Sponsor Footer -->
     <footer class="app-footer">
-      <a href="https://github.com/tumsomprasong/StackLens" target="_blank" rel="noopener noreferrer" class="footer-link">
-        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+      <a href="https://github.com/tumsomprasong/StackLens" target="_blank" rel="noopener noreferrer"
+        class="footer-link">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polygon
+            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
         </svg>
         <span>Star on GitHub</span>
       </a>
       <span class="footer-sep" aria-hidden="true">·</span>
-      <a href="https://github.com/sponsors/tumsomprasong" target="_blank" rel="noopener noreferrer" class="footer-link footer-sponsor-link">
-        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <a href="https://github.com/sponsors/tumsomprasong" target="_blank" rel="noopener noreferrer"
+        class="footer-link footer-sponsor-link">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
           <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
           <line x1="6" y1="1" x2="6" y2="4" />
@@ -182,10 +227,87 @@
       </a>
     </footer>
 
+    <!-- Settings & Cache Modal -->
+    <div id="settings-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true"
+      aria-labelledby="settings-title">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title-wrap">
+            <h2 id="settings-title" class="modal-title">Settings</h2>
+            <p class="modal-subtitle">Preferences &amp; Detection Cache</p>
+          </div>
+          <button id="btn-close-settings" class="modal-close-btn" type="button" aria-label="Close settings">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Cache Management Group -->
+          <div class="settings-group">
+            <div class="group-header">
+              <span class="group-title">Detection Cache</span>
+              <span id="cache-stats-badge" class="stats-pill">0 items</span>
+            </div>
+            <p class="group-desc">DNS records, IP geo-location, and CVE vulnerabilities are cached in browser local
+              storage for 24 hours to maximize scanning speed.</p>
+            <button id="btn-clear-cache" class="btn-action-danger" type="button">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="3 6 5 6 21 6" />
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+              </svg>
+              <span>Clear All Detection Cache</span>
+            </button>
+          </div>
+
+          <!-- Analysis Options Group -->
+          <div class="settings-group">
+            <div class="group-header">
+              <span class="group-title">Analysis Features</span>
+            </div>
+
+            <!-- CVE Toggle -->
+            <label class="setting-row" for="setting-cve-toggle">
+              <div class="setting-info">
+                <span class="setting-label">CVE Vulnerability Auditing</span>
+                <span class="setting-subtext">Query OSV.dev database for library security advisories</span>
+              </div>
+              <div class="switch-container">
+                <input type="checkbox" id="setting-cve-toggle" class="toggle-checkbox" checked />
+                <span class="toggle-switch" aria-hidden="true"></span>
+              </div>
+            </label>
+
+            <!-- DNS Provider Select -->
+            <div class="setting-row select-row">
+              <div class="setting-info">
+                <label for="setting-doh-provider" class="setting-label">DNS-over-HTTPS Resolver</label>
+                <span class="setting-subtext">Encrypted DNS for A, AAAA, MX, TXT, NS records</span>
+              </div>
+              <select id="setting-doh-provider" class="custom-select">
+                <option value="cloudflare">Cloudflare (1.1.1.1)</option>
+                <option value="google">Google Public DNS (8.8.8.8)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <span class="modal-version-tag">StackLens v1.1.0 · 100% Serverless</span>
+          <button id="btn-save-settings" class="btn-primary" type="button">Done</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Status Toast -->
     <div id="toast" class="toast hidden" role="status" aria-live="polite">Copied to clipboard</div>
   </div>
 
   <script type="module" src="popup.js"></script>
 </body>
+
 </html>
