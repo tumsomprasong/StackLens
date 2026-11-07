@@ -3,10 +3,16 @@
   <h1>StackLens</h1>
   <p><strong>Deep Web Stack, Infrastructure, Security &amp; Lead Lens — 100% Free &amp; Open Source.</strong></p>
   <p>
+    <a href="https://chromewebstore.google.com/detail/jfmfbmjkafbmimefoomiejfpjdflhbdm"><img src="https://img.shields.io/badge/Chrome_Web_Store-ติดตั้งส่วนขยาย-4285F4?style=flat-square&logo=googlechrome&logoColor=white" alt="Chrome Web Store" /></a>
     <img src="https://img.shields.io/badge/License-GPL--3.0--only-4F46E5?style=flat-square" alt="License: GPL-3.0-only" />
     <img src="https://img.shields.io/badge/Chrome-Manifest_V3-06B6D4?style=flat-square" alt="Chrome Manifest V3" />
     <img src="https://img.shields.io/badge/Signatures-7%2C760%2B_(2026_Edition)-10B981?style=flat-square" alt="7,760+ Signatures" />
     <img src="https://img.shields.io/badge/Architecture-100%25_Serverless-6366F1?style=flat-square" alt="100% Serverless" />
+  </p>
+  <p>
+    <a href="https://chromewebstore.google.com/detail/jfmfbmjkafbmimefoomiejfpjdflhbdm">
+      <img src="https://img.shields.io/badge/👉_เพิ่มลงใน_Chrome-Official_Store-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="เพิ่มลงใน Chrome" />
+    </a>
   </p>
   <p>
     <a href="README.md">English</a> · <strong>ภาษาไทย (Thai)</strong> · <a href="PRIVACY_POLICY.md">นโยบายความเป็นส่วนตัว (Privacy Policy)</a>
@@ -60,14 +66,18 @@
 
 ---
 
-### 5. 🎨 High-Density 2-Column UI, Dark/Light Theme & One-Click Export
+### 5. 🎨 High-Density 2-Column UI, เมนูตั้งค่า & ยุบรวมปุ่ม Export
 - **Balanced 2-Column Masonry Layout**: จัดวางหมวดหมู่เทคโนโลยีในแท็บ **Stack** แบบ 2 คอลัมน์ที่คำนวณสมดุลความสูงอัตโนมัติ แสดงข้อมูลได้แน่นและครบถ้วนโดยไม่มีพื้นที่ว่างเสียเปล่า
 - **Dark / Light Mode Toggle (☀️ / 🌙)**: รองรับทั้งโหมดมืด (**Deep Indigo & Electric Cyan**) และโหมดสว่างความคมชัดสูง (**WCAG AA Contrast**) พร้อมจดจำค่าที่เลือกไว้ทันที
+- **⚙️ หน้าต่าง Settings & จัดการแคชการตรวจจับ**:
+  - **ล้างแคชได้ใน 1 คลิก (Clear All Detection Cache)**: แสดงจำนวนรายการและขนาดความจุแคชในเครื่อง พร้อมปุ่มล้างข้อมูล DNS, IP, และ CVE ทิ้งทันทีเพื่อสั่งสแกนข้อมูลใหม่สดๆ
+  - **สวิตช์เปิด/ปิดการตรวจจับช่องโหว่ CVE**: ปิดเพื่อเพิ่มความเร็วในการสแกน หรือเปิดเพื่อเช็คฐานข้อมูลช่องโหว่ OSV.dev
+  - **เลือกตัวแก้ DNS (DoH Resolver)**: สลับระหว่าง **Cloudflare (`1.1.1.1`)** หรือ **Google Public DNS (`8.8.8.8`)** ได้ตามต้องการ
+- **ปุ่มรวม Export อัจฉริยะ (`Export ▾`)**: คลิกปุ่มเดียวเพื่อเลือกว่าจะส่งออกรายงานเป็น **JSON Report** (`.json`) หรือ **CSV Spreadsheet** (`.csv`)
 - **Keyboard Shortcuts**:
   - กด `/` เพื่อโฟกัสช่องค้นหาเทคโนโลยีหรือหมวดหมู่ทันที
-  - กด `Esc` เพื่อล้างคำค้นหา
+  - กด `Esc` เพื่อล้างคำค้นหา หรือปิดหน้าต่างเมนู/การตั้งค่า
   - กด `ArrowLeft` / `ArrowRight` เพื่อสลับแท็บ
-- **Export JSON / CSV & 24-Hour Smart Cache**: ส่งออกรายงานทั้งหมดเป็นไฟล์ `.json` หรือ `.csv` ได้ในคลิกเดียว พร้อมระบบแคชข้อมูล DNS/IP/CVE ลงใน `chrome.storage.local` (TTL 24 ชั่วโมง)
 
 ---
 
@@ -105,6 +115,20 @@ stacklens/
 ---
 
 ## 🚀 วิธีติดตั้งใช้งาน (Installation Guide)
+
+### วิธีที่ 1: ติดตั้งผ่าน Chrome Web Store (แนะนำ — ติดตั้งได้ใน 1 คลิก)
+
+ติดตั้งส่วนขยายเวอร์ชันทางการที่ผ่านการตรวจสอบแล้วได้โดยตรงจาก Chrome Web Store:
+
+<a href="https://chromewebstore.google.com/detail/jfmfbmjkafbmimefoomiejfpjdflhbdm">
+  <img src="https://img.shields.io/badge/Chrome_Web_Store-ติดตั้ง_StackLens-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="ติดตั้งจาก Chrome Web Store" />
+</a>
+
+> **ลิงก์หน้าส่วนขยายในสโตร์:** [chromewebstore.google.com/detail/jfmfbmjkafbmimefoomiejfpjdflhbdm](https://chromewebstore.google.com/detail/jfmfbmjkafbmimefoomiejfpjdflhbdm)
+
+---
+
+### วิธีที่ 2: ติดตั้งแบบ Developer Mode (Load Unpacked สำหรับนักพัฒนา)
 
 สามารถติดตั้งลงในเบราว์เซอร์ตระกูล Chromium ได้ทั้งหมด (**Google Chrome**, **Microsoft Edge**, **Brave**, **Arc**, **Vivaldi**):
 
